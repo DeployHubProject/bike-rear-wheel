@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "bike-rear-wheel.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "bike-rear-wheel.name" . }}
+        version: {{ include "bike-rear-wheel.name" . }}-{{ .Values.image.version }}
+    spec:
+      containers:
+        - name: {{ include "bike-rear-wheel.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
